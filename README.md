@@ -1,1 +1,1 @@
-# consoleMineSweeper
+# ConsoleMineSweeper
