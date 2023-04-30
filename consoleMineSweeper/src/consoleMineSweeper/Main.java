@@ -44,7 +44,6 @@ public class Main {
 				break;
 				
 			}else {
-				gameGrid.decrementSafeSpacesLeft();
 				gameGrid.showBombs(selected);
 			}
 			

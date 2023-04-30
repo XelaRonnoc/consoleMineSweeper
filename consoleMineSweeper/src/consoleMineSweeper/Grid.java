@@ -68,6 +68,7 @@ public class Grid {
 	
 	public void showBombs(Cell selected) {
 		selected.setRevealed();
+		decrementSafeSpacesLeft();
 		int curX = selected.getXLoc();
 		int curY = selected.getYLoc();
 		int bombCount = 0;
