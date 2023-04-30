@@ -10,6 +10,13 @@ public class Grid {
 	private int safeSpacesLeft;
 	
 	public Grid(int bombs, int gridSize) {
+		if(bombs <=0) {
+			bombs = 1;
+		}
+		
+		if(gridSize < 2) {
+			gridSize = 2;
+		}
 		this.gridSize = gridSize<=10 ? gridSize : 10;
 		this.cells = new Cell[this.gridSize][this.gridSize];
 	    for(int i=0; i<cells.length; i++) {
@@ -56,7 +63,6 @@ public class Grid {
 		int xLoc = (input/10);
 		int yLoc = (input%10);
 		Cell selected = cells[yLoc][xLoc];
-		
 		return selected;
 	}
 	
@@ -66,7 +72,7 @@ public class Grid {
 		int bombCount = 0;
 		for(int i = curY-1; i <= curY+1; i++) {
 			for(int j = curX-1; j <= curX+1; j++) {
-				if(i > -1 && i < 10 && j > -1 && j < 10) {
+				if(i > -1 && i < this.gridSize && j > -1 && j < this.gridSize) {
 					if(cells[i][j].getBomb()) {
 						bombCount++;
 					}
