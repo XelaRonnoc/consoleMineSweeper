@@ -67,14 +67,28 @@ public class Grid {
 	}
 	
 	public void showBombs(Cell selected) {
+		selected.setRevealed();
 		int curX = selected.getXLoc();
 		int curY = selected.getYLoc();
 		int bombCount = 0;
 		for(int i = curY-1; i <= curY+1; i++) {
 			for(int j = curX-1; j <= curX+1; j++) {
 				if(i > -1 && i < this.gridSize && j > -1 && j < this.gridSize) {
-					if(cells[i][j].getBomb()) {
-						bombCount++;
+					if(!cells[i][j].getRevealed()) {				
+						if(cells[i][j].getBomb()) {
+							bombCount++;
+						}
+					}
+				}
+			}
+		}
+		if(bombCount == 0) {
+			for(int i = curY-1; i <= curY+1; i++) {
+				for(int j = curX-1; j <= curX+1; j++) {
+					if(i > -1 && i < this.gridSize && j > -1 && j < this.gridSize) {
+						if(!cells[i][j].getRevealed()) {
+							showBombs(cells[i][j]);
+						}
 					}
 				}
 			}

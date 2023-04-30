@@ -25,7 +25,12 @@ public class Cell {
 	}
 	
 	public void setName(int numBombs) {
-		this.name = "| " + "B" + numBombs + " |";
+		if(numBombs == 0) {
+			this.name = "|    |";
+		}else {
+			this.name = "| " + "B" + numBombs + " |";
+		}
+		
 	}
 	
 	public int getXLoc() {
@@ -36,12 +41,7 @@ public class Cell {
 	}
 	
 	public void render() {
-		if(this.hasBomb) {
-			System.out.print("| xx |");
-		}else {
-			System.out.print(this.name);
-		}
-		
+		System.out.print(this.name);
 		if(this.rowEnd) {
 			System.out.printf("\n");
 		}
@@ -54,6 +54,14 @@ public class Cell {
 	
 	public boolean getBomb() {
 		return this.hasBomb;
+	}
+	
+	public void setRevealed() {
+		this.revealed = true;
+	}
+	
+	public boolean getRevealed() {
+		return this.revealed;
 	}
 	
 
