@@ -1,0 +1,15 @@
+
+ Game Result: lost 
+ Tiles Remaing: 11 
+ Bombs in Play: 5 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 10 
+ Bombs in Play: 5 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 9 
+ Bombs in Play: 5 
+ Map Size: 4x4 

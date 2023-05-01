@@ -104,4 +104,12 @@ public class Grid {
 	public void decrementSafeSpacesLeft() {
 		this.safeSpacesLeft--;
 	}
+	
+	public int getNumberOfBombs() {
+		return this.numberOfBombs;
+	}
+	
+	public int getGridSize() {
+		return this.gridSize;
+	}
 }

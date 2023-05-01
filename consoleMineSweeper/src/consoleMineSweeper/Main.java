@@ -36,6 +36,11 @@ public class Main {
 			boolean bomb = selected.getBomb();
 			if(bomb) {
 				System.out.println("BOOOM!");
+				String result = "lost";
+				String remainingTiles = "" + gameGrid.getSafeSpacesLeft();
+				String bombs = "" + gameGrid.getNumberOfBombs();
+				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
+				Save.save(result, remainingTiles, bombs, mapSize);		
 				if(menuHandler(s).equals("r")) {
 					gameGrid = new Grid(numberOfBombs, gameBoardSize);
 					gameGrid.initialiseBombs();
@@ -49,6 +54,11 @@ public class Main {
 			
 			if(gameGrid.getSafeSpacesLeft() == 0) {
 				System.out.println("You Won!!!");
+				String result = "Won";
+				String remainingTiles = "0";
+				String bombs = "" + gameGrid.getNumberOfBombs();
+				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
+				Save.save(result, remainingTiles, bombs, mapSize);
 				if(menuHandler(s).equals("r")) {
 					gameGrid = new Grid(numberOfBombs, gameBoardSize);
 					gameGrid.initialiseBombs();
