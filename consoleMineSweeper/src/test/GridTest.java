@@ -1,4 +1,4 @@
-package consoleMineSweeper;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import consoleMineSweeper.Cell;
+import consoleMineSweeper.Grid;
+import consoleMineSweeper.InvalidInputException;
 
 public class GridTest {
 	static Grid grid;
