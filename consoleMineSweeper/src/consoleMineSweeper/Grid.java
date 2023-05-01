@@ -59,7 +59,10 @@ public class Grid {
 	      }
 	}
 	
-	public Cell getCell(int input) {
+	public Cell getCell(int input) throws InvalidInputException {
+		if((""+input).length() != 2 ) {
+			throw new InvalidInputException("inputs must be 2 digits only");
+		}
 		int xLoc = (input/10);
 		int yLoc = (input%10);
 		Cell selected = cells[yLoc][xLoc];
@@ -113,3 +116,4 @@ public class Grid {
 		return this.gridSize;
 	}
 }
+

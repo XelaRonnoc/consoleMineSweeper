@@ -11,14 +11,9 @@ public class Main {
 		int gameBoardSize = s.nextInt();
 		System.out.println("Please enter the number of Bombs (>=1 <=width^2)");
 		int numberOfBombs = s.nextInt();
-
-		
 		boolean running = true;
-		
 		Grid gameGrid = new Grid(numberOfBombs, gameBoardSize);
 		gameGrid.initialiseBombs();
-		
-		
 		
 		while(running) {
 			gameGrid.render();
@@ -28,8 +23,8 @@ public class Main {
 			Cell selected;
 			try {
 			selected = gameGrid.getCell(input);
-			}catch(Exception e) {
-				System.out.println("please provide a valid input");
+			}catch(InvalidInputException e) {
+				System.out.println(e.getMessage());
 				continue;
 			}
 			
