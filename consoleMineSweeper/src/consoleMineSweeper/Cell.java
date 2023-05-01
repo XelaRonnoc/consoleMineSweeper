@@ -5,7 +5,6 @@ public class Cell {
 	private int yLoc;
 	private boolean rowEnd;
 	private boolean hasBomb = false;
-	private String innerName;
 	private String name;
 	private boolean revealed = false;
 	
@@ -15,7 +14,6 @@ public class Cell {
 		this.yLoc = y;
 		this.rowEnd = rowEnd;
 		this.name = "| " + this.xLoc + this.yLoc + " |";
-		this.innerName = "" + this.xLoc + this.yLoc;
 		
 	}
 	
@@ -29,8 +27,7 @@ public class Cell {
 			this.name = "|    |";
 		}else {
 			this.name = "| " + "B" + numBombs + " |";
-		}
-		
+		}	
 	}
 	
 	public int getXLoc() {
