@@ -2,7 +2,7 @@ package consoleMineSweeper;
 
 public class Grid {
 	
-	private Cell[][] cells = new Cell[10][10];
+	private static Cell[][] cells = new Cell[10][10];
 	private int numberOfBombs;
 	private int unassignedBombs;
 	private int gridSize;
@@ -13,21 +13,25 @@ public class Grid {
 		if(bombs <=0) {
 			bombs = 1;
 		}
-		
+
 		if(gridSize < 2) {
 			gridSize = 2;
 		}
 		this.gridSize = gridSize<=10 ? gridSize : 10;
-		this.cells = new Cell[this.gridSize][this.gridSize];
+		cells = new Cell[this.gridSize][this.gridSize];
 	    for(int i=0; i<cells.length; i++) {
 	        for(int j=0; j<cells[i].length; j++) {
 	        	if(j == cells[i].length-1) {
 	        		cells[i][j] = new Cell(j,i,true);
 	        	}else {
 	        		cells[i][j] = new Cell(j,i,false);
-	        	}
-	        	
-	        	
+	        	}	        	
+	        }
+	    }
+	    
+	    for(int i=0; i<cells.length; i++) {
+	        for(int j=0; j<cells[i].length; j++) {
+	        	cells[i][j].initialiseNeighbors();
 	        }
 	    }
 	    
@@ -60,8 +64,9 @@ public class Grid {
 	}
 	
 	public Cell getCell(int input) throws InvalidInputException {
-		if((""+input).length() != 2 ) {
-			throw new InvalidInputException("inputs must be 2 digits only");
+		if((""+input).length() > 2) {
+			System.out.println((""+input));
+			throw new InvalidInputException("inputs must be 2 digits or less");
 		}
 		int xLoc = (input/10);
 		int yLoc = (input%10);
@@ -69,31 +74,34 @@ public class Grid {
 		return selected;
 	}
 	
+	public static Cell getCell(int x, int y) {
+		if(x < 0 || x >= cells[0].length) {
+			return null;
+		}
+		
+		if(y < 0 || y >= cells.length) {
+			return null;
+		}
+		return (cells[y][x] != null) ? cells[y][x] : null;
+	}
+	
 	public void showBombs(Cell selected) {
 		selected.setRevealed();
 		decrementSafeSpacesLeft();
-		int curX = selected.getXLoc();
-		int curY = selected.getYLoc();
 		int bombCount = 0;
-		for(int i = curY-1; i <= curY+1; i++) {
-			for(int j = curX-1; j <= curX+1; j++) {
-				if(i > -1 && i < this.gridSize && j > -1 && j < this.gridSize) {
-					if(!cells[i][j].getRevealed()) {				
-						if(cells[i][j].getBomb()) {
-							bombCount++;
-						}
-					}
+		
+		for(Cell neighbor : selected.getNeighbors()) {
+			if(!neighbor.getRevealed()) {
+				if(neighbor.getBomb()) {
+					bombCount++;
 				}
 			}
-		}
+		}	
+
 		if(bombCount == 0) {
-			for(int i = curY-1; i <= curY+1; i++) {
-				for(int j = curX-1; j <= curX+1; j++) {
-					if(i > -1 && i < this.gridSize && j > -1 && j < this.gridSize) {
-						if(!cells[i][j].getRevealed()) {
-							showBombs(cells[i][j]);
-						}
-					}
+			for(Cell neighbor : selected.getNeighbors()) {
+				if(!neighbor.getRevealed()) {
+					showBombs(neighbor);
 				}
 			}
 		}

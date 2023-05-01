@@ -1,5 +1,7 @@
 package consoleMineSweeper;
 
+import java.util.ArrayList;
+
 public class Cell {
 	private int xLoc;
 	private int yLoc;
@@ -7,7 +9,12 @@ public class Cell {
 	private boolean hasBomb = false;
 	private String name;
 	private boolean revealed = false;
+	private ArrayList<Cell> neighbors = new ArrayList<Cell>();
 	
+	
+	public Cell(int x, int y) {
+		new Cell(x,y,false);
+	}
 	
 	public Cell(int x, int y, boolean rowEnd) {
 		this.xLoc = x;
@@ -15,8 +22,22 @@ public class Cell {
 		this.rowEnd = rowEnd;
 		this.name = "| " + this.xLoc + this.yLoc + " |";
 		
+
+		
 	}
 	
+	public void initialiseNeighbors() {
+		for(int i = this.yLoc-1; i <= this.yLoc+1; i++) {
+			for(int j = this.xLoc-1; j <= xLoc+1; j++) {
+					if(i != this.yLoc || j != this.xLoc) {
+						if(Grid.getCell(j,i) != null) {
+							this.neighbors.add(Grid.getCell(j, i));
+						}
+					}
+				}
+				
+			}
+	}
 	
 	public String getName() {
 		return this.name;
@@ -59,6 +80,10 @@ public class Cell {
 	
 	public boolean getRevealed() {
 		return this.revealed;
+	}
+	
+	public ArrayList<Cell> getNeighbors(){
+		return this.neighbors;
 	}
 	
 
