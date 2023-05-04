@@ -55,17 +55,17 @@ public class CellTest {
 		assertEquals("| 15 |", cell.getName());
 	}
 	
-	@Test
-	void getBomb_NameNoBomb_ReturnsBombState() {
-		cell.setName(0);
-		assertEquals("|    |", cell.getName());
-	}
-	
-	@Test
-	void getBomb_NameWThreeBombs_ReturnsBombState() {
-		cell.setName(3);
-		assertEquals("| B3 |", cell.getName());
-	}
+//	@Test
+//	void getBomb_NameNoBomb_ReturnsBombState() {
+//		cell.setName(0);
+//		assertEquals("|    |", cell.getName());
+//	}
+//	
+//	@Test
+//	void getBomb_NameWThreeBombs_ReturnsBombState() {
+//		cell.setName(3);
+//		assertEquals("| B3 |", cell.getName());
+//	}
 	
 	
 	

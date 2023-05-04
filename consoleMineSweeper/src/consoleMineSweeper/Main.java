@@ -1,10 +1,12 @@
 package consoleMineSweeper;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
 
 	public static void main(String[] args) {
+		
 		
 		Scanner s = new Scanner(System.in);
 		System.out.println("Please enter the board width (<=10 >=2)");
@@ -12,20 +14,21 @@ public class Main {
 		System.out.println("Please enter the number of Bombs (>=1 <=width^2)");
 		int numberOfBombs = s.nextInt();
 		boolean running = true;
-		Grid gameGrid = new Grid(numberOfBombs, gameBoardSize);
-		gameGrid.initialiseBombs();
+		GridSingleton gameGrid = GridSingleton.getGrid();
+		gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 		
 		while(running) {
 			gameGrid.render();
 			
 			System.out.println("Enter tile number");
 			int input = s.nextInt();
-			Cell selected;
-			try {
-			selected = gameGrid.getCell(input);
-			}catch(InvalidInputException e) {
-				System.out.println(e.getMessage());
+			Cell selected = null;
+			Optional<Cell> chosen = gameGrid.getCell(input);
+			if(chosen.isEmpty()) {
+				System.out.println("please ensure valid selection entered");
 				continue;
+			}else {
+				selected = chosen.get();
 			}
 			
 			boolean bomb = selected.getBomb();
@@ -37,13 +40,13 @@ public class Main {
 				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
 				Save.save(result, remainingTiles, bombs, mapSize);		
 				if(menuHandler(s).equals("r")) {
-					gameGrid = new Grid(numberOfBombs, gameBoardSize);
-					gameGrid.initialiseBombs();
+					gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 					continue;
 				}
 				break;
 				
 			}else {
+				System.out.println("about to show bombs");
 				gameGrid.showBombs(selected);
 			}
 			
@@ -55,8 +58,7 @@ public class Main {
 				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
 				Save.save(result, remainingTiles, bombs, mapSize);
 				if(menuHandler(s).equals("r")) {
-					gameGrid = new Grid(numberOfBombs, gameBoardSize);
-					gameGrid.initialiseBombs();
+					gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 					continue;
 				}
 				break;
@@ -64,6 +66,65 @@ public class Main {
 			}
 		}
 		System.out.println("exited");
+		
+//		Scanner s = new Scanner(System.in);
+//		System.out.println("Please enter the board width (<=10 >=2)");
+//		int gameBoardSize = s.nextInt();
+//		System.out.println("Please enter the number of Bombs (>=1 <=width^2)");
+//		int numberOfBombs = s.nextInt();
+//		boolean running = true;
+//		Grid gameGrid = new Grid(numberOfBombs, gameBoardSize);
+//		gameGrid.initialiseBombs();
+//		
+//		while(running) {
+//			gameGrid.render();
+//			
+//			System.out.println("Enter tile number");
+//			int input = s.nextInt();
+//			Cell selected;
+//			try {
+//			selected = gameGrid.getCell(input);
+//			}catch(InvalidInputException e) {
+//				System.out.println(e.getMessage());
+//				continue;
+//			}
+//			
+//			boolean bomb = selected.getBomb();
+//			if(bomb) {
+//				System.out.println("BOOOM!");
+//				String result = "lost";
+//				String remainingTiles = "" + gameGrid.getSafeSpacesLeft();
+//				String bombs = "" + gameGrid.getNumberOfBombs();
+//				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
+//				Save.save(result, remainingTiles, bombs, mapSize);		
+//				if(menuHandler(s).equals("r")) {
+//					gameGrid = new Grid(numberOfBombs, gameBoardSize);
+//					gameGrid.initialiseBombs();
+//					continue;
+//				}
+//				break;
+//				
+//			}else {
+//				gameGrid.showBombs(selected);
+//			}
+//			
+//			if(gameGrid.getSafeSpacesLeft() == 0) {
+//				System.out.println("You Won!!!");
+//				String result = "Won";
+//				String remainingTiles = "0";
+//				String bombs = "" + gameGrid.getNumberOfBombs();
+//				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
+//				Save.save(result, remainingTiles, bombs, mapSize);
+//				if(menuHandler(s).equals("r")) {
+//					gameGrid = new Grid(numberOfBombs, gameBoardSize);
+//					gameGrid.initialiseBombs();
+//					continue;
+//				}
+//				break;
+//				
+//			}
+//		}
+//		System.out.println("exited");
 	}
 	
 	

@@ -2,7 +2,6 @@ package consoleMineSweeper;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class GridSingleton {
 	private static GridSingleton instance = new GridSingleton();
@@ -22,14 +21,26 @@ public class GridSingleton {
 	}
 	
 	public void setupGrid(int bombs, int size) {
+		if(size > 10) {
+			size = 10;
+		}
 		this.gridSize = size >= 2 ? size : 2; 
 		this.gridArea = (int) Math.pow(this.gridSize, 2);
-		this.setupBombs(bombs);
 		this.setUpCells();
+		this.setupBombs(bombs);
 		this.initialliseBombs();
+		this.setUpNeighbors();
+		this.safeSpacesLeft = this.gridArea-this.numberOfBombs;
 
 	}
 	
+	private void setUpNeighbors() {
+		for(Cell cell: cells) {
+			cell.newInitialiseNeighbors(); 
+		}
+		
+	}
+
 	private void initialliseBombs() {
 		while(this.unassignedBombs > 0) {
 			int cellLoc = (int) Math.floor(Math.random()*this.gridArea);
@@ -64,55 +75,41 @@ public class GridSingleton {
 				xLoc = yLoc != this.gridSize-1 ? 0 : xLoc++; // if not end of last row set to 0
 				yLoc++;
 			}else {
-				cells.add(new Cell(xLoc,yLoc, true));
+				cells.add(new Cell(xLoc,yLoc, false));
 				xLoc++;
 			}
-			
 		}
-		
-		for(Cell cell: cells) {
-			cell.initialiseNeighbors(); // in current form won't work need new initialise Neighbors
-		}
+
 	}
 	
 	
-	public Cell getCell(int input) throws InvalidInputException{
+	public Optional<Cell> getCell(int input) {
 		if((""+input).length() > 2) {
-			System.out.println(input);
-			throw new InvalidInputException("inputs must be 2 digits or less");
-		}
-		
+			return Optional.empty();
+		}	
 		Optional<Cell> selected = this.cells.stream().filter(s -> s.getLocation() == input).findFirst();
-		
 		if(selected.isEmpty()) {
-			throw new InvalidInputException("cannot find cell at: " + input);
+			System.out.println("no cell found");
 		}
-		
-		return selected.get();
+		return selected;
 	}
 	
 	public void showBombs(Cell selected) {
+		if(selected.getBomb()) {
+			return;
+		}
 		selected.setRevealed();
 		this.decrementSafeSpacesLeft();
-		int bombCount = 0;
-		
+		System.out.println(this.getSafeSpacesLeft() + "safe spaces left");
 		
 		for(Cell neighbor : selected.getNeighbors()) {
 			if(!neighbor.getRevealed()) {
-				if(neighbor.getBomb()) {
-					bombCount++;
-				}
+				if(selected.canCascade()) {
+					showBombs(neighbor);
+				}	
 			}
 		}	
-
-		if(bombCount == 0) {
-			for(Cell neighbor : selected.getNeighbors()) {
-				if(!neighbor.getRevealed()) {
-					showBombs(neighbor);
-				}
-			}
-		}
-		selected.setName(bombCount);
+		selected.setName();
 	}
 	
 	
