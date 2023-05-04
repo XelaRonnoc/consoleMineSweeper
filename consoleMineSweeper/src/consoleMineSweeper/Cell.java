@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Cell {
 	private int xLoc;
 	private int yLoc;
+	private int loc;
 	private boolean rowEnd;
 	private boolean hasBomb = false;
 	private String name;
@@ -22,7 +23,14 @@ public class Cell {
 		this.rowEnd = rowEnd;
 		this.name = "| " + this.xLoc + this.yLoc + " |";
 		
-
+	}
+	
+	public Cell(int loc, boolean rowEnd) {
+		this.loc = loc;
+		this.xLoc = loc/10;
+		this.yLoc = loc%10;
+		this.rowEnd = rowEnd;
+		this.name = "| " + this.xLoc + this.yLoc + " |";
 		
 	}
 	
@@ -37,6 +45,10 @@ public class Cell {
 				}
 				
 			}
+	}
+	
+	public int getLocation() {
+		return this.loc;
 	}
 	
 	public String getName() {
