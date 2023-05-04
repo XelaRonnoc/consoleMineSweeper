@@ -56,8 +56,8 @@ public class GridSingleton {
 	private void setupBombs(int bombs) {
 		if(bombs >= this.gridArea){
 			this.numberOfBombs = this.gridArea - 1;
-		}else if(bombs < 1) {
-			this.numberOfBombs = 1;
+		}else if(bombs < 0) {
+			this.numberOfBombs = 0;
 		}else {
 			this.numberOfBombs = bombs;
 		}
@@ -82,7 +82,6 @@ public class GridSingleton {
 
 	}
 	
-	
 	public Optional<Cell> getCell(int input) {
 		if((""+input).length() > 2) {
 			return Optional.empty();
@@ -100,7 +99,6 @@ public class GridSingleton {
 		}
 		selected.setRevealed();
 		this.decrementSafeSpacesLeft();
-		System.out.println(this.getSafeSpacesLeft() + "safe spaces left");
 		
 		for(Cell neighbor : selected.getNeighbors()) {
 			if(!neighbor.getRevealed()) {

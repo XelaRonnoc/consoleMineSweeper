@@ -40,19 +40,6 @@ public class Cell {
 		
 	}
 	
-//	public void initialiseNeighbors() {
-//		for(int i = this.yLoc-1; i <= this.yLoc+1; i++) {
-//			for(int j = this.xLoc-1; j <= xLoc+1; j++) {
-//					if(i != this.yLoc || j != this.xLoc) {
-//						if(Grid.getCell(j,i) != null) {
-//							this.neighbors.add(Grid.getCell(j, i));
-//						}
-//					}
-//				}
-//				
-//			}
-//	}
-	
 	public void newInitialiseNeighbors() {
 		for(int i = this.yLoc-1; i <= this.yLoc+1; i++) {
 			for(int j = this.xLoc-1; j <= xLoc+1; j++) {
@@ -132,6 +119,11 @@ public class Cell {
 	
 	public int getNear() {
 		return this.bombNear;
+	}
+	
+	// ONLY USE FOR TESTING
+	public void setNear(int bombs) {
+		this.bombNear = bombs;
 	}
 	
 

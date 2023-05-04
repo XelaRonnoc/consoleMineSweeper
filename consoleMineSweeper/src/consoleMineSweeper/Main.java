@@ -9,10 +9,26 @@ public class Main {
 		
 		
 		Scanner s = new Scanner(System.in);
-		System.out.println("Please enter the board width (<=10 >=2)");
-		int gameBoardSize = s.nextInt();
-		System.out.println("Please enter the number of Bombs (>=1 <=width^2)");
-		int numberOfBombs = s.nextInt();
+		int gameBoardSize = -1;
+		int numberOfBombs = -1;
+		System.out.println("Please enter the desired board width as an int e.g. 10");
+		while(gameBoardSize < 0) {
+			try {
+			gameBoardSize = s.nextInt();
+			}catch (Exception e){
+				s.nextLine();
+				System.out.println("invalid input please enter a number greater than 0 and less than 10");
+			}
+		}
+		System.out.println("Please enter the desired number of bombs as an int e.g. 10");
+		while(numberOfBombs < 0 ) {
+			try {
+				numberOfBombs = s.nextInt();
+			}catch (Exception e) {
+				s.nextLine();
+				System.out.println("invalid input please enter a number greater than 0 and less than the game area");
+			}
+		}
 		boolean running = true;
 		GridSingleton gameGrid = GridSingleton.getGrid();
 		gameGrid.setupGrid(numberOfBombs, gameBoardSize);
@@ -21,11 +37,21 @@ public class Main {
 			gameGrid.render();
 			
 			System.out.println("Enter tile number");
-			int input = s.nextInt();
+			int input; 
+			while(true) {
+				try {
+					input = s.nextInt();
+				}catch (Exception e) {
+					s.nextLine();
+					System.out.println("Invalid input Please enter a positive integer");
+					continue;
+				}
+				break;
+			}
 			Cell selected = null;
 			Optional<Cell> chosen = gameGrid.getCell(input);
 			if(chosen.isEmpty()) {
-				System.out.println("please ensure valid selection entered");
+				System.out.println("please enter a positive integer displayed on the game board");
 				continue;
 			}else {
 				selected = chosen.get();
@@ -34,11 +60,12 @@ public class Main {
 			boolean bomb = selected.getBomb();
 			if(bomb) {
 				System.out.println("BOOOM!");
-				String result = "lost";
-				String remainingTiles = "" + gameGrid.getSafeSpacesLeft();
-				String bombs = "" + gameGrid.getNumberOfBombs();
-				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
-				Save.save(result, remainingTiles, bombs, mapSize);		
+				Save.save(
+						"lost",
+						"" + gameGrid.getSafeSpacesLeft(),
+						"" + gameGrid.getNumberOfBombs(),
+						gameGrid.getGridSize() + "x" + gameGrid.getGridSize()
+						);		
 				if(menuHandler(s).equals("r")) {
 					gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 					continue;
@@ -52,11 +79,12 @@ public class Main {
 			
 			if(gameGrid.getSafeSpacesLeft() == 0) {
 				System.out.println("You Won!!!");
-				String result = "Won";
-				String remainingTiles = "0";
-				String bombs = "" + gameGrid.getNumberOfBombs();
-				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
-				Save.save(result, remainingTiles, bombs, mapSize);
+				Save.save(
+						"Won",
+						"" + gameGrid.getSafeSpacesLeft(),
+						"" + gameGrid.getNumberOfBombs(),
+						gameGrid.getGridSize() + "x" + gameGrid.getGridSize()
+						);	
 				if(menuHandler(s).equals("r")) {
 					gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 					continue;
@@ -66,65 +94,7 @@ public class Main {
 			}
 		}
 		System.out.println("exited");
-		
-//		Scanner s = new Scanner(System.in);
-//		System.out.println("Please enter the board width (<=10 >=2)");
-//		int gameBoardSize = s.nextInt();
-//		System.out.println("Please enter the number of Bombs (>=1 <=width^2)");
-//		int numberOfBombs = s.nextInt();
-//		boolean running = true;
-//		Grid gameGrid = new Grid(numberOfBombs, gameBoardSize);
-//		gameGrid.initialiseBombs();
-//		
-//		while(running) {
-//			gameGrid.render();
-//			
-//			System.out.println("Enter tile number");
-//			int input = s.nextInt();
-//			Cell selected;
-//			try {
-//			selected = gameGrid.getCell(input);
-//			}catch(InvalidInputException e) {
-//				System.out.println(e.getMessage());
-//				continue;
-//			}
-//			
-//			boolean bomb = selected.getBomb();
-//			if(bomb) {
-//				System.out.println("BOOOM!");
-//				String result = "lost";
-//				String remainingTiles = "" + gameGrid.getSafeSpacesLeft();
-//				String bombs = "" + gameGrid.getNumberOfBombs();
-//				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
-//				Save.save(result, remainingTiles, bombs, mapSize);		
-//				if(menuHandler(s).equals("r")) {
-//					gameGrid = new Grid(numberOfBombs, gameBoardSize);
-//					gameGrid.initialiseBombs();
-//					continue;
-//				}
-//				break;
-//				
-//			}else {
-//				gameGrid.showBombs(selected);
-//			}
-//			
-//			if(gameGrid.getSafeSpacesLeft() == 0) {
-//				System.out.println("You Won!!!");
-//				String result = "Won";
-//				String remainingTiles = "0";
-//				String bombs = "" + gameGrid.getNumberOfBombs();
-//				String mapSize = gameGrid.getGridSize() + "x" + gameGrid.getGridSize();
-//				Save.save(result, remainingTiles, bombs, mapSize);
-//				if(menuHandler(s).equals("r")) {
-//					gameGrid = new Grid(numberOfBombs, gameBoardSize);
-//					gameGrid.initialiseBombs();
-//					continue;
-//				}
-//				break;
-//				
-//			}
-//		}
-//		System.out.println("exited");
+
 	}
 	
 	
