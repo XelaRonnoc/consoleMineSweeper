@@ -23,21 +23,40 @@ public class GridSingletonTest {
 		}
 		
 		@Test
-		void getCell_TwoDigitInt_ReturnsCorrectCell() {
-			Optional<Cell> cell = grid.getCell(15);
+		void getCell_XYDigitInt_ReturnsCorrectCell() {
+			Optional<Cell> cell = grid.getCell(1,5);
 			assertEquals(1, cell.get().getXLoc());
 			assertEquals(5, cell.get().getYLoc());
 		}
 		
 		@Test
-		void getCell_LessThan0Input_ReturnsOptionalEmpty() {
-			Optional<Cell> cell = grid.getCell(-1);
+		void getCell_invalidXY_ReturnsOptionalEmpty() {
+			Optional<Cell> cell = grid.getCell(-1,0);
 			assertEquals(Optional.empty(), cell);
 		}
 		
 		@Test
-		void getCell_OutOfBoundsTwoDigitInt_ReturnsOptionalEmpty() {
-			Optional<Cell> cell = grid.getCell(202);
+		void getCell_OutOfBoundsXY_ReturnsOptionalEmpty() {
+			Optional<Cell> cell = grid.getCell(20,2);
+			assertEquals(Optional.empty(), cell);
+		}
+		
+		@Test
+		void getCell_StringLoc_ReturnsCorrectCell() {
+			Optional<Cell> cell = grid.getCell("15");
+			assertEquals(1, cell.get().getXLoc());
+			assertEquals(5, cell.get().getYLoc());
+		}
+		
+		@Test
+		void getCell_invalidString_ReturnsOptionalEmpty() {
+			Optional<Cell> cell = grid.getCell("A");
+			assertEquals(Optional.empty(), cell);
+		}
+		
+		@Test
+		void getCell_OutOfBoundsString_ReturnsOptionalEmpty() {
+			Optional<Cell> cell = grid.getCell("202");
 			assertEquals(Optional.empty(), cell);
 		}
 		

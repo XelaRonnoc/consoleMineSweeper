@@ -71,24 +71,33 @@ public class GridSingleton {
 		int xLoc = 0;
 		while(xLoc < this.gridSize && yLoc < this.gridSize) {
 			if(xLoc == this.gridSize-1) { // if end of row
-				cells.add(new Cell(xLoc,yLoc, true));
+				cells.add(new Cell(xLoc,yLoc, true, ""+xLoc+yLoc));
 				xLoc = yLoc != this.gridSize-1 ? 0 : xLoc++; // if not end of last row set to 0
 				yLoc++;
 			}else {
-				cells.add(new Cell(xLoc,yLoc, false));
+				cells.add(new Cell(xLoc,yLoc, false, ""+xLoc+yLoc));
 				xLoc++;
 			}
 		}
 
 	}
 	
-	public Optional<Cell> getCell(int input) {
-		if((""+input).length() > 2) {
-			return Optional.empty();
-		}	
-		Optional<Cell> selected = this.cells.stream().filter(s -> s.getLocation() == input).findFirst();
+	public Optional<Cell> getCell(String input) {
+	
+		Optional<Cell> selected = this.cells.stream().filter(s -> s.getLocation().equals(input)).findFirst();
 		if(selected.isEmpty()) {
 			System.out.println("no cell found");
+			return Optional.empty();
+		}
+		return selected;
+	}
+	
+	public Optional<Cell> getCell(int x, int y) {
+		
+		Optional<Cell> selected = this.cells.stream().filter(s -> s.getXLoc() == x && s.getYLoc() == y).findFirst();
+		if(selected.isEmpty()) {
+			System.out.println("no cell found");
+			return Optional.empty();
 		}
 		return selected;
 	}

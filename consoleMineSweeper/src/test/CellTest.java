@@ -35,7 +35,7 @@ public class CellTest {
 	
 	@Test
 	void getLoc_ReturnsLoc() {
-		assertEquals(15, cell.getLocation());
+		assertEquals("15", cell.getLocation());
 	}
 	
 	@Test
@@ -81,37 +81,37 @@ public class CellTest {
 	
 	@Test
 	void canCascade_BomblessGrid_returnsTrue() {
-		Optional<Cell> cur = grid.getCell(15);
+		Optional<Cell> cur = grid.getCell(1,5);
 		assertEquals(true, cur.get().canCascade());
 	}
 	
 	
 	@Test
 	void getNear_BomblessGrid_returnsZero() {
-		Optional<Cell> cur = grid.getCell(15);
+		Optional<Cell> cur = grid.getCell(1,5);
 		assertEquals(0, cur.get().getNear());
 	}
 	
 	@Test
 	void getNeighbors_GridSurronded_ReturnsArrayListSize8() {
-		Optional<Cell> cur = grid.getCell(15);
+		Optional<Cell> cur = grid.getCell(1,5);
 		assertEquals(8, cur.get().getNeighbors().size());
 	}
 	@Test
 	void getNeighbors_GridTopLeft_ReturnsArrayListSize3() {
-		Optional<Cell> cur = grid.getCell(00);
+		Optional<Cell> cur = grid.getCell(0,0);
 		assertEquals(3, cur.get().getNeighbors().size());
 	}
 	
 	@Test
 	void getNeighbors_GridBottomRight_ReturnsArrayListSize3() {
-		Optional<Cell> cur = grid.getCell(99);
+		Optional<Cell> cur = grid.getCell(9,9);
 		assertEquals(3, cur.get().getNeighbors().size());
 	}
 	
 	@Test
 	void getNeighbors_GridMidLeft_ReturnsArrayListSize5() {
-		Optional<Cell> cur = grid.getCell(01);
+		Optional<Cell> cur = grid.getCell(0,1);
 		assertEquals(5, cur.get().getNeighbors().size());
 	}
 	

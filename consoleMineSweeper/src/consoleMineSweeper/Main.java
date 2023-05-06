@@ -24,10 +24,12 @@ public class Main {
 		while(numberOfBombs < 0 ) {
 			try {
 				numberOfBombs = s.nextInt();
+				
 			}catch (Exception e) {
 				s.nextLine();
 				System.out.println("invalid input please enter a number greater than 0 and less than the game area");
 			}
+			s.nextLine(); // consume unused next line
 		}
 		boolean running = true;
 		GridSingleton gameGrid = GridSingleton.getGrid();
@@ -37,12 +39,11 @@ public class Main {
 			gameGrid.render();
 			
 			System.out.println("Enter tile number");
-			int input; 
+			String input; 
 			while(true) {
 				try {
-					input = s.nextInt();
+					input = s.nextLine();
 				}catch (Exception e) {
-					s.nextLine();
 					System.out.println("Invalid input Please enter a positive integer");
 					continue;
 				}
@@ -99,7 +100,7 @@ public class Main {
 	
 	
 	public static String menuHandler(Scanner s) {
-		s.nextLine();// consumes unconsumed next line from the nextInts
+//		s.nextLine();// consumes unconsumed next line from the nextInts
 		System.out.println("enter r to continue or any other key to exit");
 		String menuInput = s.nextLine();
 		System.out.println(menuInput);

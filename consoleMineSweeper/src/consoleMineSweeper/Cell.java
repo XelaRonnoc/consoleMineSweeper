@@ -7,7 +7,7 @@ public class Cell {
 	private GridSingleton gridRef = GridSingleton.getGrid();
 	private int xLoc;
 	private int yLoc;
-	private int loc;
+	private String loc;
 	private boolean rowEnd;
 	private boolean hasBomb = false;
 	private String name;
@@ -23,7 +23,7 @@ public class Cell {
 	}
 	
 	public Cell(int x, int y, boolean rowEnd) {
-		this.loc = Integer.parseInt(""+ x + "" + y);
+		this.loc = ""+ x + "" + y;
 		this.xLoc = x;
 		this.yLoc = y;
 		this.rowEnd = rowEnd;
@@ -31,10 +31,10 @@ public class Cell {
 		
 	}
 	
-	public Cell(int loc, boolean rowEnd) {
+	public Cell(int x, int y, boolean rowEnd, String loc) {
 		this.loc = loc;
-		this.xLoc = loc/10;
-		this.yLoc = loc%10;
+		this.xLoc = x;
+		this.yLoc = y;
 		this.rowEnd = rowEnd;
 		this.name = "| " + this.xLoc + this.yLoc + " |";
 		
@@ -47,8 +47,7 @@ public class Cell {
 					if(i < 0 || j < 0 || i >= this.gridRef.getGridSize() || j >= this.gridRef.getGridSize()) {
 						continue;
 					}
-					int cellLoc =  Integer.parseInt("" + j +"" + i);
-					Optional<Cell> neighbor = gridRef.getCell(cellLoc);
+					Optional<Cell> neighbor = gridRef.getCell(j,i);
 					if(neighbor.isPresent()) {
 						if(neighbor.get().getBomb()) {
 							this.canCascade = false;
@@ -61,7 +60,7 @@ public class Cell {
 		}
 	}
 	
-	public int getLocation() {
+	public String getLocation() {
 		return this.loc;
 	}
 	
