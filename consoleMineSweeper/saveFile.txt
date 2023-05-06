@@ -13,3 +13,98 @@
  Tiles Remaing: 9 
  Bombs in Play: 5 
  Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 42 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 12 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 12 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: Won 
+ Tiles Remaing: 0 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 12 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 12 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 12 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 11 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 3 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 3 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 8 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 36 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 89 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 33 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 68 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 4 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 11 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 12 
+ Bombs in Play: 4 
+ Map Size: 4x4 
+
+ Game Result: lost 
+ Tiles Remaing: 4 
+ Bombs in Play: 4 
+ Map Size: 4x4 
