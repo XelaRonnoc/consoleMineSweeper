@@ -35,11 +35,14 @@ public class Main {
 		GridSingleton gameGrid = GridSingleton.getGrid();
 		gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 		
+		// make the running part be held in gameGrid and then
+		// then while(gameGrid.isRunning()) can be the state
 		while(running) {
 			gameGrid.render();
 			
 			System.out.println("Enter tile number");
 			String input; 
+			// seperate out into an input manager class
 			while(true) {
 				try {
 					input = s.nextLine();
@@ -49,6 +52,19 @@ public class Main {
 				}
 				break;
 			}
+			
+			//replace with try catch as performant isn't as important
+			// and you can throw more errors and they can be thrown individually	
+//			try {
+//				gameGrid.submit(input); // true, false
+//			}catch (OutOfGridError e) {
+//				//handle error
+//			} catch (InvalidValue e) {
+//				//handle error
+//			} catch (Exception e) {
+//				// handle error
+//			}
+			
 			Cell selected = null;
 			Optional<Cell> chosen = gameGrid.getCell(input);
 			if(chosen.isEmpty()) {
@@ -74,7 +90,6 @@ public class Main {
 				break;
 				
 			}else {
-				System.out.println("about to show bombs");
 				gameGrid.showBombs(selected);
 			}
 			

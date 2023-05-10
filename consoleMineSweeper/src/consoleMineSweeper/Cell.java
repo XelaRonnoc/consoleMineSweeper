@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Cell {
+	
+	// should avoid this global state with this 
 	private GridSingleton gridRef = GridSingleton.getGrid();
 	private int xLoc;
 	private int yLoc;
@@ -40,6 +42,7 @@ public class Cell {
 		
 	}
 	
+	// cell can still store it's neighbors but this info should be passed in from the grid
 	public void newInitialiseNeighbors() {
 		for(int i = this.yLoc-1; i <= this.yLoc+1; i++) {
 			for(int j = this.xLoc-1; j <= xLoc+1; j++) {
@@ -68,6 +71,7 @@ public class Cell {
 		return this.name;
 	}
 	
+	// use string format
 	public void setName() {
 		if(this.bombNear == 0) {
 			this.name = "|    |";

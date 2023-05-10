@@ -3,6 +3,9 @@ package consoleMineSweeper;
 import java.util.ArrayList;
 import java.util.Optional;
 
+
+
+// change this to be a wrapper for grid class so that it just holds an instance of grid
 public class GridSingleton {
 	private static GridSingleton instance = new GridSingleton();
 	private  ArrayList<Cell> cells = new ArrayList<Cell>();
