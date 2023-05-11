@@ -31,13 +31,12 @@ public class Main {
 			}
 			s.nextLine(); // consume unused next line
 		}
-		boolean running = true;
 		GridSingleton gameGrid = GridSingleton.getGrid();
 		gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 		
 		// make the running part be held in gameGrid and then
 		// then while(gameGrid.isRunning()) can be the state
-		while(running) {
+		while(gameGrid.getIsRunning()) {
 			gameGrid.render();
 			
 			System.out.println("Enter tile number");
@@ -64,53 +63,16 @@ public class Main {
 //			} catch (Exception e) {
 //				// handle error
 //			}
+			gameGrid.submit(input);
 			
-			Cell selected = null;
-			Optional<Cell> chosen = gameGrid.getCell(input);
-			if(chosen.isEmpty()) {
-				System.out.println("please enter a positive integer displayed on the game board");
-				continue;
-			}else {
-				selected = chosen.get();
-			}
-			
-			boolean bomb = selected.getBomb();
-			if(bomb) {
-				System.out.println("BOOOM!");
-				Save.save(
-						"lost",
-						"" + gameGrid.getSafeSpacesLeft(),
-						"" + gameGrid.getNumberOfBombs(),
-						gameGrid.getGridSize() + "x" + gameGrid.getGridSize()
-						);		
+			if(!gameGrid.getIsRunning()) {
 				if(menuHandler(s).equals("r")) {
 					gameGrid.setupGrid(numberOfBombs, gameBoardSize);
 					continue;
 				}
-				break;
-				
-			}else {
-				gameGrid.showBombs(selected);
-			}
-			
-			if(gameGrid.getSafeSpacesLeft() == 0) {
-				System.out.println("You Won!!!");
-				Save.save(
-						"Won",
-						"" + gameGrid.getSafeSpacesLeft(),
-						"" + gameGrid.getNumberOfBombs(),
-						gameGrid.getGridSize() + "x" + gameGrid.getGridSize()
-						);	
-				if(menuHandler(s).equals("r")) {
-					gameGrid.setupGrid(numberOfBombs, gameBoardSize);
-					continue;
-				}
-				break;
-				
-			}
+			}	
 		}
 		System.out.println("exited");
-
 	}
 	
 	

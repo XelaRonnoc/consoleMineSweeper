@@ -14,6 +14,7 @@ public class GridSingleton {
 	private  int gridSize = 2;
 	private int gridArea = 4;
 	private  int safeSpacesLeft;
+	private boolean isRunning;
 	
 	private GridSingleton() {
 		
@@ -34,6 +35,7 @@ public class GridSingleton {
 		this.initialliseBombs();
 		this.setUpNeighbors();
 		this.safeSpacesLeft = this.gridArea-this.numberOfBombs;
+		this.isRunning = true;
 
 	}
 	
@@ -85,6 +87,38 @@ public class GridSingleton {
 
 	}
 	
+	public void submit(String input) {
+		Optional<Cell> selected = this.getCell(input);
+		if(selected.isEmpty()) {
+			System.out.println("please enter a positive integer displayed on the game board");
+
+			return;
+		}
+		if(selected.get().getBomb()) {
+			System.out.println("BOOOM!");
+			Save.save(
+					"lost",
+					"" + this.getSafeSpacesLeft(),
+					"" + this.getNumberOfBombs(),
+					this.getGridSize() + "x" + this.getGridSize()
+					);
+			this.isRunning = false;	
+		}else {
+			this.showBombs(selected.get());
+			if(this.safeSpacesLeft == 0) {
+				System.out.println("You Won!!!");
+				Save.save(
+						"Won",
+						"" + this.getSafeSpacesLeft(),
+						"" + this.getNumberOfBombs(),
+						this.getGridSize() + "x" + this.getGridSize()
+						);	
+				this.isRunning = false;
+			}
+		}
+		
+	}
+	
 	public Optional<Cell> getCell(String input) {
 	
 		Optional<Cell> selected = this.cells.stream().filter(s -> s.getLocation().equals(input)).findFirst();
@@ -122,6 +156,10 @@ public class GridSingleton {
 		selected.setName();
 	}
 	
+	
+	public boolean getIsRunning() {
+		return this.isRunning;
+	}
 	
 	public int getSafeSpacesLeft() {
 		return this.safeSpacesLeft;
