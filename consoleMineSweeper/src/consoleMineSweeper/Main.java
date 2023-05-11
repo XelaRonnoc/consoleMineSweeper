@@ -63,7 +63,19 @@ public class Main {
 //			} catch (Exception e) {
 //				// handle error
 //			}
-			gameGrid.submit(input);
+			try {
+				gameGrid.submit(input);
+			}catch (InvalidInputException e) {
+				System.out.printf("%s is a non-numeric string please enter a numeric string\n", input);
+				continue;
+			}catch (OutOfGridBoundsException e) {
+				System.out.printf("%s is out of grid bounds ensure it is positive and no larger than the highest numbered cell\n", input);
+				continue;
+			}catch (Exception e) {
+				e.printStackTrace();
+				System.out.printf("%s is an invalid input\n", input);
+				continue;
+			}
 			
 			if(!gameGrid.getIsRunning()) {
 				if(menuHandler(s).equals("r")) {

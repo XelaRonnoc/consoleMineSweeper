@@ -87,14 +87,19 @@ public class GridSingleton {
 
 	}
 	
-	public void submit(String input) {
-		Optional<Cell> selected = this.getCell(input);
-		if(selected.isEmpty()) {
-			System.out.println("please enter a positive integer displayed on the game board");
-
-			return;
+	public void submit(String input) throws OutOfGridBoundsException, InvalidInputException {
+		int inputAsInt = 0;
+		try {
+		inputAsInt = Integer.parseInt(input);
+		}catch (NumberFormatException e) {
+			throw new InvalidInputException();
 		}
-		if(selected.get().getBomb()) {
+		if(inputAsInt > Integer.parseInt(this.cells.get(cells.size()-1).getLocation()) || inputAsInt < 0) {
+			throw new OutOfGridBoundsException();
+		}
+
+		Cell selected = this.getCell(input);
+		if(selected.getBomb()) {
 			System.out.println("BOOOM!");
 			Save.save(
 					"lost",
@@ -104,7 +109,7 @@ public class GridSingleton {
 					);
 			this.isRunning = false;	
 		}else {
-			this.showBombs(selected.get());
+			this.showBombs(selected);
 			if(this.safeSpacesLeft == 0) {
 				System.out.println("You Won!!!");
 				Save.save(
@@ -116,16 +121,10 @@ public class GridSingleton {
 				this.isRunning = false;
 			}
 		}
-		
 	}
 	
-	public Optional<Cell> getCell(String input) {
-	
-		Optional<Cell> selected = this.cells.stream().filter(s -> s.getLocation().equals(input)).findFirst();
-		if(selected.isEmpty()) {
-			System.out.println("no cell found");
-			return Optional.empty();
-		}
+	public Cell getCell(String input) {
+		Cell selected = this.cells.stream().filter(s -> s.getLocation().equals(input)).findFirst().get();
 		return selected;
 	}
 	
@@ -155,7 +154,6 @@ public class GridSingleton {
 		}	
 		selected.setName();
 	}
-	
 	
 	public boolean getIsRunning() {
 		return this.isRunning;
