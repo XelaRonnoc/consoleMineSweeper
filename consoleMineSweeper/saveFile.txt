@@ -248,3 +248,13 @@
  Tiles Remaing: 6 
  Bombs in Play: 10 
  Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 46 
+ Bombs in Play: 10 
+ Map Size: 10x10 
+
+ Game Result: lost 
+ Tiles Remaing: 8 
+ Bombs in Play: 10 
+ Map Size: 10x10 

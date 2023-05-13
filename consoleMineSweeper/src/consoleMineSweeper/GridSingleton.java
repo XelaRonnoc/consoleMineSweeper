@@ -36,7 +36,6 @@ public class GridSingleton {
 		this.setUpNeighbors();
 		this.safeSpacesLeft = this.gridArea-this.numberOfBombs;
 		this.isRunning = true;
-
 	}
 	
 	private void setUpNeighbors() {
