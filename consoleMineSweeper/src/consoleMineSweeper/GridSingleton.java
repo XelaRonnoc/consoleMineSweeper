@@ -14,6 +14,7 @@ public class GridSingleton {
 	private  int gridSize = 2;
 	private int gridArea = 4;
 	private  int safeSpacesLeft;
+	private boolean isRunning;
 	
 	private GridSingleton() {
 		
@@ -34,14 +35,34 @@ public class GridSingleton {
 		this.initialliseBombs();
 		this.setUpNeighbors();
 		this.safeSpacesLeft = this.gridArea-this.numberOfBombs;
-
+		this.isRunning = true;
 	}
 	
 	private void setUpNeighbors() {
 		for(Cell cell: cells) {
-			cell.newInitialiseNeighbors(); 
+			initCellNeighbors(cell); 
 		}
 		
+	}
+	
+	private void initCellNeighbors(Cell cell) {
+		for(int i = cell.getYLoc()-1; i <= cell.getYLoc()+1; i++) {
+			for(int j = cell.getXLoc()-1; j <= cell.getXLoc()+1; j++) {
+				if(i != cell.getYLoc() || j != cell.getXLoc()) {
+					if(i < 0 || j < 0 || i >= this.getGridSize() || j >= this.getGridSize()) {
+						continue;
+					}
+					Optional<Cell> neighbor = this.getCell(j,i);
+					if(neighbor.isPresent()) {
+						if(neighbor.get().getBomb()) {
+							cell.setCanCascade(false);
+							cell.incrementBombNear();
+						}
+						cell.addNeighbor(neighbor.get());
+					}
+				}
+			}
+		}
 	}
 
 	private void initialliseBombs() {
@@ -85,13 +106,44 @@ public class GridSingleton {
 
 	}
 	
-	public Optional<Cell> getCell(String input) {
-	
-		Optional<Cell> selected = this.cells.stream().filter(s -> s.getLocation().equals(input)).findFirst();
-		if(selected.isEmpty()) {
-			System.out.println("no cell found");
-			return Optional.empty();
+	public void submit(String input) throws OutOfGridBoundsException, InvalidInputException {
+		int inputAsInt = 0;
+		try {
+		inputAsInt = Integer.parseInt(input);
+		}catch (NumberFormatException e) {
+			throw new InvalidInputException();
 		}
+		if(inputAsInt > Integer.parseInt(this.cells.get(cells.size()-1).getLocation()) || inputAsInt < 0) {
+			throw new OutOfGridBoundsException();
+		}
+
+		Cell selected = this.getCell(input);
+		if(selected.getBomb()) {
+			System.out.println("BOOOM!");
+			Save.save(
+					"lost",
+					"" + this.getSafeSpacesLeft(),
+					"" + this.getNumberOfBombs(),
+					this.getGridSize() + "x" + this.getGridSize()
+					);
+			this.isRunning = false;	
+		}else {
+			this.showBombs(selected);
+			if(this.safeSpacesLeft == 0) {
+				System.out.println("You Won!!!");
+				Save.save(
+						"Won",
+						"" + this.getSafeSpacesLeft(),
+						"" + this.getNumberOfBombs(),
+						this.getGridSize() + "x" + this.getGridSize()
+						);	
+				this.isRunning = false;
+			}
+		}
+	}
+	
+	public Cell getCell(String input) {
+		Cell selected = this.cells.stream().filter(s -> s.getLocation().equals(input)).findFirst().get();
 		return selected;
 	}
 	
@@ -122,6 +174,9 @@ public class GridSingleton {
 		selected.setName();
 	}
 	
+	public boolean getIsRunning() {
+		return this.isRunning;
+	}
 	
 	public int getSafeSpacesLeft() {
 		return this.safeSpacesLeft;
