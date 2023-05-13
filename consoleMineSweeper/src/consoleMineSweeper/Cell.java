@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Cell {
-	
-	// should avoid this global state with this 
-	private GridSingleton gridRef = GridSingleton.getGrid();
+
 	private int xLoc;
 	private int yLoc;
 	private String loc;
@@ -40,27 +38,6 @@ public class Cell {
 		this.rowEnd = rowEnd;
 		this.name = "| " + this.xLoc + this.yLoc + " |";
 		
-	}
-	
-	// cell can still store it's neighbors but this info should be passed in from the grid
-	public void newInitialiseNeighbors() {
-		for(int i = this.yLoc-1; i <= this.yLoc+1; i++) {
-			for(int j = this.xLoc-1; j <= xLoc+1; j++) {
-				if(i != this.yLoc || j != this.xLoc) {
-					if(i < 0 || j < 0 || i >= this.gridRef.getGridSize() || j >= this.gridRef.getGridSize()) {
-						continue;
-					}
-					Optional<Cell> neighbor = gridRef.getCell(j,i);
-					if(neighbor.isPresent()) {
-						if(neighbor.get().getBomb()) {
-							this.canCascade = false;
-							this.bombNear++;
-						}
-						this.neighbors.add(neighbor.get());
-					}
-				}
-			}
-		}
 	}
 	
 	public String getLocation() {
@@ -111,17 +88,27 @@ public class Cell {
 		return this.revealed;
 	}
 	
+	public void addNeighbor(Cell neighbor) {
+		this.neighbors.add(neighbor);
+	}
+	
 	public ArrayList<Cell> getNeighbors(){
 		return this.neighbors;
 	}
 
+	public void setCanCascade(boolean cascadable) {
+		this.canCascade = cascadable;
+	}
 	public boolean canCascade() {
-		
 		return this.canCascade;
 	}
 	
 	public int getNear() {
 		return this.bombNear;
+	}
+	
+	public void incrementBombNear() {
+		this.bombNear++;
 	}
 	
 	// ONLY USE FOR TESTING
