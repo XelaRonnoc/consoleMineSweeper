@@ -24,7 +24,7 @@ public class GridSingleton {
 		return instance;
 	}
 	
-	public void setupGrid(int bombs, int size) {
+	public void setupGrid(int size, int bombs) {
 		if(size > 10) {
 			size = 10;
 		}
