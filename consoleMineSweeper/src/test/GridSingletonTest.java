@@ -110,7 +110,7 @@ public class GridSingletonTest {
 		
 		@Test 
 		void getIsRunning_ReturnsGameStateNotRunningNoBombsInstaWin_ReturnsFalse(){
-			grid.setupGrid(2, 4); // full field of bombs
+			grid.setupGrid(2, 0); // no bombs
 			try {
 				grid.submit("00");
 			} catch (OutOfGridBoundsException e) {
