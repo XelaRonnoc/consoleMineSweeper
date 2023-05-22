@@ -17,11 +17,6 @@ public class Cell {
 	private int bombNear = 0;
 	
 	
-	
-	public Cell(int x, int y) {
-		new Cell(x,y,false);
-	}
-	
 	public Cell(int x, int y, boolean rowEnd) {
 		this.loc = ""+ x + "" + y;
 		this.xLoc = x;
@@ -69,7 +64,6 @@ public class Cell {
 		if(this.rowEnd) {
 			System.out.printf("\n");
 		}
-		
 	}
 	
 	public void setBomb() {

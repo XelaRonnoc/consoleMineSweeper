@@ -6,12 +6,13 @@ package test;
 	import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 	import org.junit.jupiter.api.Test;
 	
 	import consoleMineSweeper.Cell;
 	import consoleMineSweeper.GridSingleton;
+	import consoleMineSweeper.OutOfGridBoundsException;
+	import consoleMineSweeper.InvalidInputException;
 	
 public class GridSingletonTest {
 		static GridSingleton grid;
@@ -41,24 +42,26 @@ public class GridSingletonTest {
 			assertEquals(Optional.empty(), cell);
 		}
 		
-//		@Test
-//		void getCell_StringLoc_ReturnsCorrectCell() {
-//			Cell cell = grid.getCell("15");
-//			assertEquals(1, cell.getXLoc());
-//			assertEquals(5, cell.getYLoc());
-//		}
+		@Test
+		void submit_OutOfBoundsInput_ThrowsOutOfGridBoundsException(){
+			assertThrows(OutOfGridBoundsException.class,() -> {
+				grid.submit("1000");
+				});
+		}
 		
-//		@Test
-//		void getCell_invalidString_ReturnsOptionalEmpty() {
-//			Cell cell = grid.getCell("A");
-//			assertEquals(Optional.empty(), cell);
-//		}
+		@Test
+		void submit_InvalidInput_ThrowsOutOfGridBoundsException(){
+			assertThrows(InvalidInputException.class,() -> {
+				grid.submit("alex");
+				});
+		}
 		
-//		@Test
-//		void getCell_OutOfBoundsString_ReturnsOptionalEmpty() {
-//			Cell cell = grid.getCell("202");
-//			assertEquals(Optional.empty(), cell);
-//		}
+		@Test
+		void getCell_StringLoc_ReturnsCorrectCell() {
+			Cell cell = grid.getCell("15");
+			assertEquals(1, cell.getXLoc());
+			assertEquals(5, cell.getYLoc());
+		}
 		
 		@Test
 		void getSafeSpacesLeft_ReturnsNumOfCellsMinusNumOfBombs() {
@@ -83,5 +86,39 @@ public class GridSingletonTest {
 		void getGridSize_ReturnsGridDimension(){
 			assertEquals(10, grid.getGridSize());
 		}
+		
+		@Test 
+		void getGridArea_ReturnsGridArea(){
+			assertEquals(100, grid.getGridArea());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateRunning_ReturnTrue(){
+			assertTrue(grid.getIsRunning());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateNotRunningAfterHittingBomb_ReturnsFalse(){
+			grid.setupGrid(2, 4); // full field of bombs
+			try {
+				grid.submit("00");
+			} catch (OutOfGridBoundsException e) {
+			} catch (InvalidInputException e) {
+			}
+			assertFalse(grid.getIsRunning());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateNotRunningNoBombsInstaWin_ReturnsFalse(){
+			grid.setupGrid(2, 0); // no bombs
+			try {
+				grid.submit("00");
+			} catch (OutOfGridBoundsException e) {
+			} catch (InvalidInputException e) {
+			}
+			assertFalse(grid.getIsRunning());
+		}
+		
+		
 
 }

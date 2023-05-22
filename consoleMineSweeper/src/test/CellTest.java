@@ -85,6 +85,29 @@ public class CellTest {
 		assertEquals(true, cur.get().canCascade());
 	}
 	
+	@Test
+	void setCanCascade_setTrue_returnsTrue() {
+		Optional<Cell> cur = grid.getCell(1,5);
+		cur.get().setCanCascade(true);
+		assertEquals(true, cur.get().canCascade());
+	}
+	
+	@Test
+	void setCanCascade_setFalse_returnsFalse() {
+		Optional<Cell> cur = grid.getCell(1,5);
+		cur.get().setCanCascade(false);
+		assertEquals(false, cur.get().canCascade());
+	}
+	
+	@Test
+	void incrementBombNear_EmptyGrid_ReturnsCorrectNumOfBombs() {
+		Optional<Cell> cur = grid.getCell(1,5);
+		assertEquals(0, cur.get().getNear());
+		cur.get().incrementBombNear();
+		assertEquals(1, cur.get().getNear());
+		cur.get().incrementBombNear();
+		assertEquals(2, cur.get().getNear());
+	}
 	
 	@Test
 	void getNear_BomblessGrid_returnsZero() {
