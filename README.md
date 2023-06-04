@@ -1,4 +1,4 @@
-# ConsoleMineSweeper
+# ConsoleMineSweeper (old Project)
 
 ## Requirements and Purpose
 
